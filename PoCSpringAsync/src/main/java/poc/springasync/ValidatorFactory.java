@@ -6,19 +6,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidatorFactory {
 	@Autowired
-	ValidatorA validatorA;
+	Validator1Async validator1Async;
 
-	@Autowired
-	ValidatorA validatorB;
-
-	public ValidatorA get(String validationType)
+	public Validator1Async get(String validationType)
 	{
-		if ("ValidatorA".equals(validationType)) {
-			return validatorA;
+		if ("Validator1Async".equals(validationType)) {
+			return validator1Async;
 		}
-		else if ("ValidatorB".equals(validationType)) {
-			return validatorB;
-		}
+
 		return null;
 	}
 }
