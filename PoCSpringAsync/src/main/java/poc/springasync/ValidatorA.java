@@ -5,17 +5,18 @@ import java.util.concurrent.Future;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 
 @Component
-public class Validator {
+public class ValidatorA implements IValidator{
 
     @Async
     public Future<String> validate(Integer i) throws InterruptedException {
         System.out.println("Validation started ...  " + i);
-        //User results = restTemplate.getForObject("https://api.github.com/users/" + user, User.class);
-        // Artificial delay of 1s for demonstration purposes
-        Thread.sleep(1000);
+        Thread.sleep(10000);
+        System.out.println("Validation finished ...  " + i);
+        
         return new AsyncResult<String>("Validation finished ... " + i);
     }
 
