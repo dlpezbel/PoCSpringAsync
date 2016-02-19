@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
-@EnableAsync
 public class Application implements CommandLineRunner {
 
     @Autowired
@@ -19,7 +17,7 @@ public class Application implements CommandLineRunner {
     public void run(String... args) throws Exception {
         long start = System.currentTimeMillis();
         
-        Validator1Async validator1Async = validatorFactory.get("Validator1Async");
+        Validator1Async validator1Async = validatorFactory.get(ValidatorFactory.VALIDATION_TYPE_1);
         List<String> results = validator1Async.validateAsync();
         
         System.out.println("Elapsed time: " + (System.currentTimeMillis() - start));
