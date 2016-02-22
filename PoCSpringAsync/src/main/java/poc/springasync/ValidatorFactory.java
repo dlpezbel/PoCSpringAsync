@@ -5,13 +5,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ValidatorFactory {
-	public static String VALIDATION_TYPE_1 = "Validator1Async";
 	@Autowired
-	Validator1Async validator1Async;
+	ValidatorRepartosAsync validator1Async;
 
-	public Validator1Async get(String validationType)
+	public ValidatorRepartosAsync get(String validationType)
 	{
-		if (VALIDATION_TYPE_1.equals(validationType)) {
+		if ("Validator1Async".equals(validationType)) {
 			return validator1Async;
 		}
 
