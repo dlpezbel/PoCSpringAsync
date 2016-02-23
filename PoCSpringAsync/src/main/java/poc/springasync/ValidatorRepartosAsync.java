@@ -1,10 +1,7 @@
 package poc.springasync;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,28 +15,23 @@ public class ValidatorRepartosAsync implements IValidatorAsync{
 	ValidatorRepartosAsyncHelper validatorRepartosAsyncHelper;
 	
     public List<String> validateAsync() throws Exception {
-    	Map<Integer, Future<String>> futureResultVMap = runParallelValidator();
-	    List<String> results = sortResults(futureResultVMap);
-	    return results;
+    	List<String> resultValidationList = new ArrayList<String>();
+    	
+    	List<Future<String>> futureResultMap = runParallelValidator();
+    	
+    	for (Future<String> future : futureResultMap) {
+    		//Añadimos el resultado al informe de procesamiento a medida que los hilos van finalizando
+    		resultValidationList.add(future.get());	
+		}
+    	return null;
     }
 
-    private Map<Integer, Future<String>> runParallelValidator() throws InterruptedException {
-        Map<Integer,Future<String>> futureResultVMap = new HashMap<Integer,Future<String>>();
+    private List<Future<String>> runParallelValidator() throws InterruptedException {
+    	List<Future<String>> futureResultList = new ArrayList<Future<String>>();
         for (int i = 0; i < 10; i++) {
             Future<String> resultValidation = validatorRepartosAsyncHelper.validate(new Integer(i));
-            futureResultVMap.put(new Integer(i),resultValidation);
+            futureResultList.add(resultValidation);
 		}
-        return futureResultVMap;
+        return futureResultList;
 	}
-
-	private List<String> sortResults(Map<Integer, Future<String>> futureResultVMap) throws InterruptedException, ExecutionException {
-    	List<String> actualStringList = new ArrayList<String>();
-        for (Map.Entry<Integer, Future<String>> entry : futureResultVMap.entrySet())
-        {
-            String resultValidation = (String) ((Future<String>)entry.getValue()).get();
-            actualStringList.add(resultValidation);
-        }
-        return actualStringList;
-	}
-    
 }
